@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Decor</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- Template CSS -->
+    <link href="/assets/css/styles1.css" rel="stylesheet" type="text/css" />
+    
+</head>
+
+<body>
+    <%- include('header') %>
+    <%- include('leftnav') %>
+
+    <div class="main-content">
+        <div class="header-container">
+            <h1 class="center-text">Category</h1>
+            <div class="form-container">
+                <div class="card ml-auto">
+                    <div class="card-body">
+                        <form action="/admin/category" method="post" onsubmit="return validateForm()">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="categoryName" required />
+                                <% if(locals.message){ %>
+                                    <span class="text-danger"><%= message %></span>
+                                <% } %>
+                            </div>
+                            <script>
+                                // Define a JavaScript function called validateForm
+                                function validateForm() {
+                                    // Get the input element
+                                    var inputElement = document.getElementById('product_name');
+                        
+                                    // Remove leading and trailing spaces
+                                    var trimmedValue = inputElement.value.trim();
+                        
+                                    // Check if the trimmed value is empty
+                                    if (trimmedValue === '') {
+                                        // Show an error message or handle the validation as needed
+                                        alert('Category name cannot be empty.');
+                                        return false; // Prevent form submission
+                                    }
+                        
+                                    // Convert the trimmed input value to uppercase
+                                    inputElement.value = trimmedValue.toUpperCase();
+                        
+                                    // Continue with form submission
+                                    return true;
+                                }
+                            </script>
+                            <div class="d-grid">
+                                <input type="submit" class="btn btn-primary" value="Create category" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="table-container">
+            <div class="container-fluid">
+                <table class="table mt-5" id="categoryTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Index</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">status</th>
+                            <th scope="col">option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% category.forEach((cat, index)=> { %>
+                            <tr>
+                                <td><%= index+1 %></td>
+                                <td><%= cat.categoryName %></td>
+                                <% if (cat.is_active) { %>
+                                    <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                <% } else { %>
+                                    <td><span class="badge rounded-pill alert-danger">Blocked</span></td>
+                                <% } %>
+                               
+                                <td>
+                                    <a class="btn btn-sm btn-brand rounded font-sm mt-15 bg-primary" style="color: white;" href="/admin/editCategory?id=<%=cat._id%>">Edit</a>&nbsp;&nbsp; 
+                                    <a class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger" style="color: white;" href="/admin/deleteCategory?id=<%=cat._id%>">Delete</a>
+                                </td>
+                            </tr>
+                        <% } )%>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $(function() {
+            $('#categoryTable').DataTable();
+        });
+    </script> 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS (optional, for Bootstrap styling) -->
+    <script src="https://maxcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+</body>
+</html>

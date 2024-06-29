@@ -1,0 +1,55 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home Decor</title>
+    <link href="/assets/css/styles1.css" rel="stylesheet" type="text/css" />
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <%- include('header') %>
+    <%- include('leftnav') %>
+
+    <div class="main-content" style="display: flex;justify-content: center; align-items: center;">
+        <div class="header-container">
+            <h1 class="center-text pb-5">Edit Brand</h1>
+            <div class="form-container" style="width: 40rem; margin-top: 25%; align-items: center; margin-left: -25rem; padding-top: 3rem;">
+                <div class="card ml-auto">
+                    <div class="card-body">
+                        <div class="col-md-12">
+                        <form action="/admin/editBrand?id=<%=brand._id%>" method="post">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Brand Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="brandName" value="<%=brand.brandName%>"/>
+                            </div>
+                           
+                            <div class="d-grid">
+                                <input type="submit" class="btn btn-primary" value="Update brand" style="background-color: #088178;"></input>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

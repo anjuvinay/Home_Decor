@@ -18,8 +18,8 @@ const userSchema=mongoose.Schema({
         required:true
     },
     is_admin:{
-        type:Number,
-        default:0
+        type:Boolean,
+        default:false
     },
     is_active:{
         type:Boolean,

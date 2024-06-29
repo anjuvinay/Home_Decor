@@ -1,0 +1,251 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+.navbar {
+    background-color: #b0c4b1;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.search-bar {
+    width: 300px;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+.top-icons {
+    display: flex;
+    align-items: center;
+}
+
+.top-icons .icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #d7e3da;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 60px; /* Adjusted for the navbar height */
+    left: 0;
+    overflow-y: auto;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.sidebar ul li ul {
+    margin-left: 20px;
+}
+
+.main-content {
+    margin-top: 80px; /* Adjust for the fixed navbar */
+    margin-left: 220px; /* Adjust for the fixed sidebar */
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 220px); /* Adjusted width */
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    flex-grow: 1;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.stat-card:last-child {
+    margin-right: 0;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.line-chart, .user-list, .bar-chart {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    flex-grow: 1;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.line-chart:last-child, .bar-chart:last-child {
+    margin-right: 0;
+}
+
+.table {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.table-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+/* vertical navbar */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-aside {
+    display: flex;
+    flex-direction: column;
+    background-color: #91a39a;
+    width: 250px;
+    height: 100vh;
+    padding: 20px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.aside-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.btn-aside-minimize {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.menu-aside {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.menu-link {
+    display: inline-block;
+    background-color: #D7DED7;
+    color: black;
+    border: none;
+    padding: 10px 15px; /* Adjusted padding for thinner pill design */
+    font-size: 14px;    /* Adjusted font size for thinner pill design */
+    border-radius: 20px; /* Adjusted border radius for thinner pill design */
+    text-decoration: none;
+    width: 80%;
+    transition: background-color 0.3s;
+}
+
+.menu-link:hover {
+    background-color: #C0C8C0;
+}
+
+.menu-link:focus {
+    outline: none;
+}
+
+.menu-item.active .menu-link {
+    font-weight: bold;
+}
+
+hr {
+    border: 1px solid #C0C8C0;
+    margin: 20px 0;
+}
+
+body {
+    background-color: rgb(236, 239, 236);
+    overflow-x: hidden;
+}
+.main-content {
+    margin-left: 13%;
+    padding: 40px;
+    margin-top: 4%;
+}
+
+.container-fluid {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.center-text {
+    text-align: center;
+    margin-bottom: 7rem;
+}
+.table-container {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.form-container {
+    width: 30%;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
