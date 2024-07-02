@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    weight: {
+    size: {
         type: Number,
         required: true
     },
@@ -41,13 +41,7 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
-    gender: {
-        type: String,
-        required: true
-    },
-    tags: {
-        type: String
-    },
+    
     is_active: {
         type: Boolean,
         default: true

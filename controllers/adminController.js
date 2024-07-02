@@ -4,8 +4,10 @@ const Category = require('../models/categoryModel')
 const Brand = require('../models/brandModel')
 const Product = require('../models/productModel')
 const bcrypt=require('bcrypt')
-const adminLayout = "./layouts/adminLayout.ejs";
 const session = require('express-session')
+const path = require('path')
+const sharp = require('sharp')
+const fs = require('fs')
 
 
 
@@ -309,9 +311,9 @@ loadAddProduct : async (req, res) => {
     try {
         let admin = req.session.adminName;
         const categoryData = await Category.find({ is_active: true })
-        // const brandData = await Brand.find({ is_active: true })
-        // res.render('addproduct', { category: categoryData, brand: brandData })
-        res.render('addproduct', { category: categoryData, admin:admin})
+        const brandData = await Brand.find({ is_active: true })
+        res.render('addproduct', { category: categoryData, brand: brandData, admin:admin })
+        
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
@@ -321,8 +323,220 @@ loadAddProduct : async (req, res) => {
 
 
 addNewProduct : async (req, res) => {
-  console.log(req.body.title)
+    try {
+        let salePrice;
+        if (req.body.discountPercentage.trim() > 0) {
+            salePrice = req.body.regularPrice - (req.body.regularPrice.trim() * req.body.discountPercentage / 100);
+        } else {
+            salePrice = req.body.regularPrice.trim();
+        }
+
+        const imagePromises = req.files.map(async (file) => {
+            const imagePath = `uploads/${file.filename}`;
+            const resizedImagePath = `uploads/resized_${file.filename}`;
+            await sharp(imagePath)
+                .resize({ width: 200, height: 200 })
+                .toFile(resizedImagePath);
+
+            return resizedImagePath;
+        });
+
+        const resizedImageUrls = await Promise.all(imagePromises);
+
+
+
+        const productData = {
+            title: req.body.title.trim(),
+            size: req.body.weight.trim(),
+            color: req.body.color.trim(),
+            shape: req.body.shape.trim(),
+            brandId: req.body.brand.trim(),
+            description: req.body.description.trim(),
+            regularPrice: req.body.regularPrice.trim(),
+            discountPercentage: req.body.discountPercentage.trim(),
+            bestDiscount: req.body.discountPercentage.trim(),
+            discountPrice: salePrice,
+            salePrice: salePrice,
+            quantity: req.body.quantity.trim(),
+            categoryId: req.body.category.trim(),
+            rating: req.body.rating.trim(),
+            image: resizedImageUrls,
+        };
+
+        const product = new Product(productData);
+
+        const savedProduct = await product.save();
+
+        if (savedProduct) {
+            res.redirect('/admin/productsList');
+        } else {
+            console.log('Error saving product');
+            res.status(500).send('Error saving product');
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.redirect('/500')
+        // res.status(500).send('Internal Server Error');
+    }
+},
+
+
+
+productsList : async (req, res) => {
+    try {
+        let admin = req.session.adminName;
+        const userData = await Product.find({})
+        if (userData) {
+
+            res.render('productsList', { products: userData ,admin:admin})
+        } else {
+            res.write('No products')
+            res.end()
+        }
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
+blockProductList : async (req, res) => {
+    try {
+        const id = req.query.productId
+        console.log("The productId:"+id)
+        const userData = await Product.findByIdAndUpdate({ _id: id }, { $set: { is_active: false } })
+        if (userData) {
+            res.redirect('/admin/productsList')
+        } else {
+            console.log('product not found or update failed')
+            res.status(404).send('product not found')
+        }
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
+unBlockProductList : async (req, res) => {
+    try {
+        const id = req.query.productId
+        const userData = await Product.findByIdAndUpdate({ _id: id }, { $set: { is_active: true } })
+        if (userData) {
+            res.redirect('/admin/productsList')
+        } else {
+            console.log('product not found or update failed')
+            res.status(404).send('product not found')
+        }
+
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
+deleteProduct : async (req, res) => {
+    try {
+        const id = req.query.productId
+        const productData = await Product.deleteOne({ _id: id })
+        if (productData) {
+            res.redirect('/admin/productsList')
+        }
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
+editProductList : async (req, res) => {
+    try {
+        let admin = req.session.adminName;
+        const id = req.query.id
+        const userData = await Product.findOne({ _id: id })
+        // console.log(userData)
+        const brandData = await Brand.find({ is_active: true })
+
+        const categoryData = await Category.find({ is_active: true })
+        if (userData) {
+            res.render('editProduct', { products: userData, category: categoryData, brand: brandData, admin:admin})
+        }
+
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
+loadEditProductList : async (req, res) => {
+    try {
+        const id = req.query.id
+        const product = await Product.findOne({ _id: id })
+        // console.log(req.files);
+        let Newimages = []
+        await Promise.all(req.files.map(async (file) => {
+            const imagePath = `uploads/${file.filename}`;
+            const resizedImagePath = `uploads/resized_${file.filename}`;
+
+            // Resize the image
+            await sharp(imagePath)
+                .resize({ width: 200, height: 200 })
+                .toFile(resizedImagePath);
+
+            Newimages.push(resizedImagePath);
+        }));
+        Newimages.forEach((image) => {
+            product.image.push(image);
+        });
+
+        // Save the product
+        await product.save();
+        let salePrice
+        if (req.body.discountPercentage.trim() > 0) {
+            salePrice = req.body.regularPrice - (req.body.regularPrice.trim() * req.body.discountPercentage / 100)
+        } else {
+            salePrice = req.body.regularPrice.trim()
+        }
+
+        const categoryData = await Category.findById(product.categoryId)
+        const catDiscountPercentage = categoryData.discount
+
+        const bestDiscount = req.body.discountPercentage > catDiscountPercentage
+            ? req.body.discountPercentage
+            : catDiscountPercentage;
+
+        const userData = await Product.findByIdAndUpdate(
+            { _id: id },
+            {
+                $set: {
+                    title: req.body.title.trim(),
+                    size: req.body.weight.trim(),
+                    color: req.body.color.trim(),
+                    shape: req.body.shape.trim(),
+                    brandId: req.body.brand.trim(),
+                    description: req.body.description.trim(),
+                    regularPrice: req.body.regularPrice.trim(),
+                    discountPercentage: req.body.discountPercentage.trim(),
+                    bestDiscount: bestDiscount,
+                    salePrice: salePrice,
+                    quantity: req.body.quantity.trim(),
+                    categoryId: req.body.category.trim(),
+                   
+                    rating: req.body.rating.trim(),
+                }
+            }
+        );
+        if (userData)
+            res.redirect('/admin/productsList')
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
 }
+
+
 
 
 

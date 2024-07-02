@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home Decor</title>
+    <!-- Template CSS -->
+    <link href="/assets/css/styles1.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <%- include('header') %>
+    <%- include('leftnav') %>
+
+    <div class="main-content">
+        <div class="header-container">
+           
+            <form action="/admin/editProductList?id=<%=products._id%>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
+                <!-- <form action="/admin/editProductList?id=<%=products._id%>" method="post" > -->
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Edit Product</h2>
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label for="product_title" class="form-label">Product Name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="product_title"
+                                        name="title" value="<%=products.title%>" required>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-md-4  mb-3">
+                                        <label for="product_sku" class="form-label">Size</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="product_sku"
+                                            name="weight" value="<%=products.size%>" required>
+                                    </div>
+                                    <div class="col-md-4  mb-3">
+                                        <label for="product_color" class="form-label">Color</label>
+                                        <input type="text" placeholder="Type here" class="form-control"
+                                            id="product_color" name="color" value="<%=products.color%>" required>
+                                    </div>
+                                    <div class="col-md-4  mb-3">
+                                        <label for="product_size" class="form-label">Shape</label>
+                                        <input type="text" placeholder="Type here" class="form-control"
+                                            id="product_size" name="shape" value="<%=products.shape%>" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <select class="form-select" name="brand"  required>
+                                        <%for(i=0;i<brand.length;i++){%>
+                                            <option value="<%=brand[i]._id%>"
+                                                <%if(products.brandId.brandName===brand[i].brandName){%>selected
+                                                <%}%>><%=brand[i].brandName%>
+                                            </option>
+                                            <%}%>
+                                        </select>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div>
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" name="description"
+                                        required><%=products.description%></textarea>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Regular price</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="$" type="number" class="form-control" min="0"
+                                                    name="regularPrice" value="<%=products.regularPrice%>" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Discount Percentage</label>
+                                            <input placeholder="$" type="number" class="form-control" name="discountPercentage"
+                                                value="<%=products.discountPercentage%>" min="0" max="100" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Quantity</label>
+                                            <input placeholder="Nos" type="number" class="form-control" name="quantity" min="0"
+                                                value="<%=products.quantity%>" required>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Media</h4>
+                            </div>
+
+
+
+
+                            <div class="card-body">
+                                <div class="input-upload">
+                                    <img src="/assetsb/imgs/theme/upload.svg" alt="">
+                                    <% for(let i=0; i<products.image.length; i++) { %>
+
+
+                                        <div class="image-preview">
+                                            <button type="button" class="btn btn-danger delete-image rounded-circle"
+                                                onclick="deleteImage(`<%=i%>`, `<%=products._id%>`)">
+
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <img src="/<%=products.image[i]%>" alt="">
+
+                                        </div>
+                                        <% } %>
+                                            <input accept="image/*" name="image" class="form-control" type="file" id="fileInput" onchange="checkFileCount()"
+                                                multiple>
+                                </div>
+                            </div>
+
+                            <script>
+                                async function deleteImage(index, productId) {
+                                    try {
+                                        const imagePreview = document.querySelectorAll('.image-preview')[index]
+                                        if (imagePreview) {
+                                            imagePreview.remove()
+                                        } else {
+                                            res.write('something error')
+                                            res.end()
+                                        }
+                                        const response=await fetch(`/admin/deleteImage/${productId}/${index}/`, {
+                                            method: 'DELETE',
+
+                                        });
+
+                                        if (response.ok) {
+                                            console.log('Image deleted successfully');
+                                            // Optionally, update the UI to reflect the deletion
+                                        } else {
+                                            console.error('Failed to delete image');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error:', error);
+                                    }
+                                }
+                            </script>
+                            <script>
+                                function validateForm() {
+                                    var title = document.querySelector('input[name="title"]').value.trim();
+                            
+                                    if (title === '') {
+                                        alert('Invalid Product title');
+                                        return false;
+                                    }
+                            
+                                    return true;
+                                }
+                            </script>
+
+                            
+
+
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4></h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row gx-2">
+                                    <div class="col-sm-12 mb-3">
+                                        <h5 class="mb-3">Categories</h5>
+                                        <div class="mb-4">
+                                            <select class="form-select" name="category" required>
+                                                <%for(i=0;i<category.length;i++){%>
+                                                    <option value="<%=category[i]._id%>"
+                                                        <%if(products.categoryId.categoryName===category[i].categoryName){%>selected
+                                                        <%}%>><%=category[i].categoryName%>
+                                                    </option>
+                                                    <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Rating</label>
+                                        <input type="text" class="form-control" name="rating" value="<%=products.rating%>">
+                                    </div>
+                                </div> <!-- row.// -->
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+                </div>
+                </div>
+                <button type="submit" class="btn btn-sm btn-brand rounded font-sm  bg-primary">Submit</button> 
+            </form>
+            </div>
+        </div>
+            <script>
+                function checkFileCount() {
+                  var fileInput = document.getElementById('fileInput');
+                  var maxFiles = 5; // Set the maximum number of allowed files
+            
+                  if (fileInput.files.length > maxFiles) {
+                    alert('You can only select up to ' + maxFiles + ' files.');
+                    // Clear the selected files to enforce the limit
+                    fileInput.value = '';
+                  }
+                }
+              </script>
+     
+</body>
+
+</html>

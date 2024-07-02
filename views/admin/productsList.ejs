@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeDecor</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <!-- Bootstrap CSS (optional, for styling) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/assets/css/styles1.css" rel="stylesheet" type="text/css" />
+   
+</head>
+<body>
+
+    <%- include('header') %>
+    <%- include('leftnav') %>
+
+    <div class="main-content">
+        <h1 class="center-text">Product List</h1>
+        <div class="d-grid pb-5 pl-4 ml-auto">
+           <a href="/admin/addProduct"> <input type="submit" class="btn btn-primary" value="Add Product" /></a>
+        </div>
+        <section>
+            <div class="container-fluid table-container">
+                <table class="table mt-5" id="productTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Index</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach((product, index)=> { %>
+                            <tr>
+                                 
+                                <td><%= index+1 %></td>
+                                <td>
+                                    <a class="itemside" href="#">
+                                        <div class="left">
+                                            <img src="/<%= product.image[0] %>" class="img-sm img-thumbnail" alt="Item" style="height: 5rem; width: 5rem;">
+                                        </div>
+                                       
+                                    </a>
+                                </td>
+                                <td><%= product.title %></td>
+                                <td><%= product._id %></td>
+                                <td><%= product.salePrice %></td>
+                                <td><%= product.quantity %></td>
+                                <% if (product.is_active) { %>
+                                    <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                <% } else { %>
+                                    <td><span class="badge rounded-pill alert-danger">Blocked</span></td>
+                                <% } %>
+                               
+                                <td class="text-end">
+                                  
+                                    <% if (product.is_active) { %>
+                                        <a onclick="sweet('<%= product._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger" style="color: white;">
+                                            <i class="material-icons "></i> Block
+                                        </a>
+                                    <% } else { %>
+                                        <a onclick="sweetAlert('<%= product._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-success" style="color: white;">
+                                            <i class="material-icons "></i> Unblock
+                                        </a>
+                                    <% } %>
+                                    <a href="/admin/editProductList?id=<%= product._id %>" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-primary" style="color: white;">
+                                        <i class="material-icons md-edit"></i> Edit
+                                    </a>
+                                    <!-- <a class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger" style="color: white;" href="/admin/deleteProduct?id=<%=product._id%>">Delete</a> -->
+
+                                    <a onclick="sweetAlert1('<%= product._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger" style="color: white;">
+                                        <i class="material-icons "></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        <% } )%>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS (optional, for Bootstrap styling) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function() {
+            $('#productTable').DataTable();
+        });
+    </script>
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function sweet(productId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to block Product!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Block Product!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Blocked!",
+                    text: "Product has been blocked.",
+                    icon: "success"
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        // Redirect after the second confirmation
+                        window.location.href = `blockProductList?productId=${productId}&act=0`;
+                    }
+                });
+            }
+        });
+    }
+</script>
+ <script>
+
+    function sweetAlert(productId) {
+        
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to Unblock Product!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, UnBlock Product!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "UnBlocked!",
+                    text: "Product has been Unblocked.",
+                    icon: "success"
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        // Redirect after the second confirmation
+                        window.location.href = `unBlockProductList?productId=${productId}&act=1`;
+                    }
+                });
+            }
+        });
+    }
+</script>
+<script>
+
+    function sweetAlert1(productId) {
+        
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to Delete Product!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Delete Product!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Product has been Deleted.",
+                    icon: "success"
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        // Redirect after the second confirmation
+                        window.location.href = `deleteProduct?productId=${productId}&act=2`;
+                    }
+                });
+            }
+        });
+    }
+</script>

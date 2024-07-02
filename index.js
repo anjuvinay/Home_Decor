@@ -16,6 +16,7 @@ const adminRoute = require('./routes/adminRoute')
 
 
 app.use('/uploads', express.static('uploads'))
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '/uploads'); // 'uploads/' is the destination folder for uploaded files
@@ -27,6 +28,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 
 
 
