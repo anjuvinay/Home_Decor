@@ -89,17 +89,26 @@ body, html {
     font-size: 2rem;
     color: #333;
 }
+
+/* .sofa-img {
+    height: 25rem; 
+    width: 50rem;
+} */
+
+
+
 .header-container {
-    height: 15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 27rem;
     width: 100%;
     background-color: rgb(59, 93, 80);
-    display: flex;
-    justify-content: flex-end; /* Align items to the right */
-    align-items: center; /* Center items vertically */
-}
+    padding: 2rem;
+} */
 
-.sofa-img {
-    height: 13rem;
-    width: 30rem;
-}
 
+.sofa-image {
+    max-width: 100%;
+    height: auto;
+}

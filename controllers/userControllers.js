@@ -1,5 +1,6 @@
 
 const User = require('../models/userModel')
+const Product = require('../models/productModel')
 const { json } = require('express')
 const session = require('express-session')
 require('dotenv').config()
@@ -14,8 +15,9 @@ module.exports = {
 loadHome : async (req,res)=>{
     try {
         let user = req.session.userName;
+        const products = await Product.find({})
 
-        res.render("index",{user:user})
+        res.render("index",{user:user, products})
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
@@ -267,12 +269,35 @@ verifyLogin : async (req, res) => {
 },
 
 
+userLogout : async (req, res) => {
+    try {
+        req.session.destroy()
+        res.redirect('/login')
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
 
 
+productDetails : async (req, res) => {
+    try {
+        const id = req.query.id
+        let user = req.session.userName;
+        const productData = await Product.findById({ _id: id }).populate('productReview.userId').populate('brandId')
+       
+      
+        if (productData) {
+            res.render('productDetails', { product: productData, user: user})
+        } else {
+            res.redirect('/home')
 
-
-
-
+        }
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
 
 
 

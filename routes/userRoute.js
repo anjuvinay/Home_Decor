@@ -17,6 +17,8 @@ userRoute.get('/verifyOtp', userController.sendOtp)
 userRoute.post('/verifyOtp', userController.verifyOtp)
 userRoute.get('/login', userController.loginLoad)
 userRoute.post('/login', userController.verifyLogin)
+userRoute.get('/logout', userController.userLogout)
+userRoute.get('/productDetails', userController.productDetails)
 
 
 

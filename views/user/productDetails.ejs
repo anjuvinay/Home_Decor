@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-product-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:46 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <title>OZORA</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+
+    <!--for rating-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .star-rating {
+            display: flex;
+        }
+
+        .star {
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked+label {
+            color: gold;
+        }
+    </style>
+    <!--rating end-->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/maind134.css?v=3.4">
+    <link rel="stylesheet" href="assets/js/magiczoom/magiczoom.css">
+    <script src="assets/js/magiczoom/magiczoom.js"></script>
+</head>
+
+<body>
+    
+   
+    <%- include('header') %>
+        <main class="main">
+            <div class="page-header breadcrumb-wrap">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <a href="" rel="nofollow">Home</a>
+                        <span></span> Shop
+                        <span></span> Details
+                    </div>
+                </div>
+            </div>
+            <section class="mt-50 mb-50">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product-detail accordion-detail">
+                                <div class="row mb-50">
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="detail-gallery">
+                                            <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                            <!-- MAIN SLIDES -->
+                                            <div class="product-image-slider bg-white"
+                                                style="max-width: 570px; max-height: 570px; ">
+                                                <%for(i=0;i<product.image.length;i++){%>
+                                                    <figure class="border-radius-10">
+                                                        <a href="/<%=product.image[i]%>" class="MagicZoom">
+
+                                                            <img src="/<%=product.image[i]%>" alt="product image"
+                                                                style="max-width: 100%;">
+                                                        </a>
+                                                    </figure>
+                                                    <%}%>
+                                            </div>
+                                            <!-- THUMBNAILS -->
+                                            <div class="slider-nav-thumbnails pl-15 pr-15 bg-white">
+                                                <%for(i=0;i<product.image.length;i++){%>
+                                                    <div><img src="/<%=product.image[i]%>" alt="product image"></div>
+                                                    <%}%>
+
+                                            </div>
+                                        </div>
+                                        <!-- End Gallery -->
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="detail-info">
+                                            <h2 class="title-detail">
+                                                <%=product.title%>
+                                            </h2>
+                                            <div class="product-detail-rating">
+                                                <div class="pro-details-brand">
+                                                    <span> Brand: <a href="shop-grid-right.html">
+                                                            <%=product.brandId.brandName%>
+                                                        </a></span>
+                                                </div>
+                                                <%if(product.productReview.length>0){%>
+                                                    <div class="product-rate-cover text-end">
+                                                        <div class="product-rate d-inline-block">
+                                                            <div class="product-rating" id="product-ratingtop">
+                                                            </div>
+                                                        </div>
+                                                        <span class="font-small ml-5 text-muted"> (
+                                                            <%=product.productReview.length%> reviews)
+                                                        </span>
+                                                    </div>
+                                                    <%}%>
+                                            </div>
+                                            <div class="clearfix product-price-cover">
+                                                <div class="product-price primary-color float-left">
+                                                    <ins><span class="text-brand">₹<%=product.salePrice.toFixed(2)%>
+                                                                </span></ins>
+                                                    <ins><span class="old-price font-md ml-15">₹
+                                                            <%=product.regularPrice.toFixed(2)%>
+                                                        </span></ins>
+                                                    <span class="save-price  font-md color3 ml-15">
+                                                        <%=product.bestDiscount%>%OFF
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                                            <div class="short-desc mb-30">
+                                                <p>
+                                                    <%=product.description%>
+                                                </p>
+                                            </div>
+                                            <div class="product_sort_info font-xs mb-30">
+                                                <ul>
+                                                    <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year Brand
+                                                        Warranty
+                                                    </li>
+                                                    <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return
+                                                        Policy</li>
+                                                    <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery
+                                                        available
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                            <div class="detail-extralink">
+                                                <form action="/productDetails?productId=<%=product._id%>" method="post"
+                                                    onsubmit="updateHiddenInput()">
+                                                    <input type="hidden" value="<%=product._id%>" name="productId">
+
+                                                    <%if(product.quantity>=1){%>
+                                                        <div class="detail-qty border radius">
+                                                            <a href="#" class="qty-down"
+                                                                onclick="updateQuantity(-1); return false;"><i
+                                                                    class="fi-rs-angle-small-down"></i></a>
+                                                            <span class="qty-val" id="quantitySpan">1</span>
+                                                            <input type="number" class="qty-input" name="quantity"
+                                                                value="1" max="<%=product.quantity%>" hidden>
+                                                            <a href="#" class="qty-up"
+                                                                onclick="updateQuantity(1); return false;"><i
+                                                                    class="fi-rs-angle-small-up"></i></a>
+
+                                                        </div>
+                                                        <%if(locals.message){%>
+                                                            <span class="text-danger">
+                                                                <%=message%>
+                                                            </span>
+                                                            <%}%>
+                                                                <div class="product-extra-link2">
+                                                                    
+                                                                    <button type="submit"
+                                                                        class="button button-add-to-cart">Add to
+                                                                        cart</button>
+                                                                        
+
+                                                                    <%if(user){%>
+                                                                        <a aria-label="Add To Wishlist"
+                                                                            class="action-btn hover-up"
+                                                                            href="/addToWishlist?id=<%=product._id%>"><i
+                                                                                class="fi-rs-heart"></i></a>
+                                                                        <%}else{%>
+                                                                            <a aria-label="Add To Wishlist"
+                                                                                class="action-btn hover-up"
+                                                                                href="/login"><i
+                                                                                    class="fi-rs-heart"></i></a>
+                                                                            <%}%>
+                                                                                <!-- <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/addToWishlist?id=<%=product._id%>"><i class="fi-rs-heart"></i></a> -->
+                                                                                <!-- <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
+                                                                </div>
+                                                                <%}else{%>
+                                                                    <span
+                                                                        class=" text-success font-weight-bold ">Currently
+                                                                        Unavailable</span>
+                                                                    <%}%>
+                                                </form>
+
+
+                                                <script>
+                                                    const quantitySpan = document.getElementById("quantitySpan");
+                                                    const quantityInput = document.querySelector(".qty-input");
+                                                    const maxQuantity = parseInt(quantityInput.getAttribute("max"), 10);
+
+                                                    function updateQuantity(change) {
+
+                                                        let currentValue = parseInt(quantityInput.value, 10);
+                                                        currentValue += change;
+
+                                                        if (currentValue < 1) {
+                                                            currentValue = 1;
+                                                        }
+
+                                                        currentValue = Math.min(Math.max(currentValue, 1), maxQuantity)
+                                                        setTimeout(() => {
+                                                            quantityInput.value = currentValue;
+                                                            quantitySpan.textContent = currentValue;
+                                                        }, 0);
+                                                    }
+
+                                                    function updateHiddenInput() {
+                                                        // Before submitting the form, ensure the hidden input has the latest value
+                                                        quantityInput.value = parseInt(quantitySpan.textContent, 10);
+                                                    }
+                                                </script>
+
+                                            </div>
+                                            <ul class="product-meta font-xs color-grey mt-50">
+                                                <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
+                                                <li class="mb-5">Tags: <a href="#" rel="tag">
+                                                        <%=product.tags%>
+                                                    </a></li>
+                                                <li>Availability:
+                                                    <%if(product.quantity>0){%>
+                                                        <span class="in-stock text-success ml-5">
+                                                            <%=product.quantity%> Items In Stock
+                                                        </span>
+                                                        <%}else{%>
+                                                            <span class="in-stock text-danger ml-5">Out of Stock</span>
+                                                            <%}%>
+
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- Detail Info -->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-10 m-auto entry-main-content">
+                                        <h2 class="section-title style-1 mb-30">Description</h2>
+                                        <div class="description mb-50">
+                                            <p>
+                                                <%=product.description%>
+                                            </p>
+                                            
+                                           
+                                            <hr class="wp-block-separator is-style-dots">
+                                            
+                                            
+                                        </div>
+                                        <h3 class="section-title style-1 mb-30">Additional info</h3>
+                                        <table class="font-md mb-30">
+                                            <tbody>
+                                                
+                                                <tr class="pa_color">
+                                                    <th>Color</th>
+                                                    <td>
+                                                        <p><%=product.color%></p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="pa_color">
+                                                    <th>Shape</th>
+                                                    <td>
+                                                        <p><%=product.shape%></p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="pa_size">
+                                                    <th>Weight</th>
+                                                    <td>
+                                                        <p><%=product.weight%></p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                        <!-- <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3> -->
+                                        <!--Comments-->
+                                        <%if(product.productReview.length>0){%>
+                                            <div class="comments-area style-2">
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <h4 class="mb-30">Customer Reviews</h4>
+                                                        <div class="comment-list">
+                                                            <% for (let i = 0; i < (product.productReview.length > 5 ? 5 : product.productReview.length); i++) { %>
+                                                                <div
+                                                                    class="single-comment justify-content-between d-flex">
+                                                                    <div class="user justify-content-between d-flex">
+                                                                        <div class="thumb text-center">
+                                                                            <img src="assets/imgs/page/avatar-6.jpg"
+                                                                                alt="">
+                                                                            <h6><a href="#">
+                                                                                    <%=product.productReview[i].userId.name%>
+                                                                                </a></h6>
+                                                                            <p class="font-xxs">Since
+                                                                                <%=product.productReview[i].userId.date%>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="desc">
+
+                                                                            <div class="star-rating" id="ratingStars">
+                                                                                <% for (let j=1; j <=5; j++) { %>
+                                                                                    <input disabled type="checkbox"
+                                                                                        id="star<%= j %>" <% if
+                                                                                        (product.productReview[i].rating>=
+                                                                                    j) { %>checked<% } %> name="rating"
+                                                                                        value="<%= j %> " />
+                                                                                            <label for="star<%= j %>"
+                                                                                                class="star"><i
+                                                                                                    class="fas fa-star"></i></label>
+                                                                                            <% } %>
+
+
+                                                                            </div>
+
+
+                                                                            <p>
+                                                                                <%=product.productReview[i].comment%>
+                                                                            </p>
+                                                                            <div class="d-flex justify-content-between">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <p class="font-xs mr-30">
+                                                                                        <%=product.productReview[i].date.toLocaleString()%>
+                                                                                    </p>
+                                                                                    <!-- <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a> -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <%}%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <h4 class="mb-30">Customer reviews</h4>
+                                                        <div class="d-flex mb-30">
+                                                            <div class="product-rate d-inline-block mr-15">
+                                                                <div class="product-rating" id="product-rating">
+                                                                </div>
+                                                            </div>
+
+                                                            <h6 id="rating-message"></h6>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>5 star</span>
+                                                            <div class="progress-bar" role="progressbar" id="ratingFive"
+                                                                aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>4 star</span>
+                                                            <div class="progress-bar" role="progressbar" id="ratingFour"
+                                                                aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>3 star</span>
+                                                            <div class="progress-bar" role="progressbar"
+                                                                id="ratingThree" aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>2 star</span>
+                                                            <div class="progress-bar" role="progressbar" id="ratingTwo"
+                                                                aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress mb-30">
+                                                            <span>1 star</span>
+                                                            <div class="progress-bar" role="progressbar" id="ratingOne"
+                                                                aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
+                                                <!--comment form-->
+                                                <script>
+                                                    window.onload = function () {
+                                                        // Replace these sample ratings with your actual ratings
+
+
+                                                        // Calculate average rating
+                                                        let totalRating = 0
+                                                        let ratingOne = 0
+                                                        let ratingTwo = 0
+                                                        let ratingThree = 0
+                                                        let ratingFour = 0
+                                                        let ratingFive = 0
+                                                            <% for (let i = 0; i < product.productReview.length; i++) { %>
+                                                                totalRating += <%= product.productReview[i].rating %>;
+                                                        <% if (product.productReview[i].rating == '1') { %>
+                                                                    ratingOne++
+                                                                    <% } else if (product.productReview[i].rating == '2') { %>
+                                                                        ratingTwo++
+                                                                        <% } else if (product.productReview[i].rating == '3') { %>
+                                                                            ratingThree++
+                                                                            <%  } else if (product.productReview[i].rating == '4') { %>
+                                                                                ratingFour++
+                                                                                <% } else if (product.productReview[i].rating == '5') { %>
+                                                                                    ratingFive++
+                                                                                    <% } %>
+                                            <% } %>
+                                            const averageRating = totalRating / <%=product.productReview.length%>;
+
+                                                        // Set up average rating
+                                                        const averageRatingContainer = document.getElementById('product-rating'); // Make sure you have this element in your HTML
+                                                        if (averageRatingContainer) {
+                                                            averageRatingContainer.style.width = `${(averageRating / 5) * 100}%`;
+                                                        }
+                                                        console.log((averageRating / 5) * 100)
+                                                        document.getElementById('product-ratingtop').style.width = `${(averageRating / 5) * 100}%`;
+                                                        let oneStar = document.getElementById('ratingOne')
+                                                        let twoStar = document.getElementById('ratingTwo')
+                                                        let threeStar = document.getElementById('ratingThree')
+                                                        let fourStar = document.getElementById('ratingFour')
+                                                        let fiveStar = document.getElementById('ratingFive')
+                                                        
+                                                        oneStar.style.width = `${ Math.round((ratingOne / <%= product.productReview.length %>) * 100) }% `;
+                                                       oneStar.innerHTML = `${ Math.round((ratingOne / <%= product.productReview.length %>) * 100) }% `;
+
+                                                        twoStar.style.width = `${ Math.round((ratingTwo / <%= product.productReview.length %>) * 100) }% `;
+                                                        twoStar.innerHTML = `${ Math.round((ratingTwo / <%= product.productReview.length %>) * 100) }% `;
+
+                                                        threeStar.style.width = `${ Math.round((ratingThree / <%= product.productReview.length %>) * 100) }% `;
+                                                        threeStar.innerHTML = `${ Math.round((ratingThree / <%= product.productReview.length %>) * 100) }% `;
+
+                                                        fourStar.style.width = `${ Math.round((ratingFour / <%= product.productReview.length %>) * 100) }% `;
+                                                        fourStar.innerHTML = `${ Math.round((ratingFour / <%= product.productReview.length %>) * 100) }% `;
+
+                                                        fiveStar.style.width = `${ Math.round((ratingFive / <%= product.productReview.length %>) * 100) }% `;
+                                                        fiveStar.innerHTML = `${ Math.round((ratingFive / <%= product.productReview.length %>) * 100) }% `;
+
+                                                    // Display average rating
+                                                    const averageRatingText = document.getElementById('rating-message');
+                                                    if (averageRatingText) {
+                                                        // Include the average rating within the h6 element
+                                                        averageRatingText.innerHTML = ` ${ averageRating.toFixed(1) } out of 5`;
+                                                    }
+
+                                                    // Log for debugging
+                                                    // console.log('Total Rating:', totalRating);
+                                                    // console.log('Average Rating:', averageRating);
+                                                };
+                                                </script>
+                                    </div>
+                                </div>
+                                <%if(relatedProducts.length>0){%>
+                                <div class="row mt-60">
+                                    <div class="col-12">
+                                        <h3 class="section-title style-1 mb-30">Related products</h3>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row related-products">
+                                            <%for(i=0;i<relatedProducts.length;i++){%>
+                                            <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                                <div class="product-cart-wrap small hover-up">
+                                                    <div class="product-img-action-wrap">
+                                                        <div class="product-img product-img-zoom">
+                                                            <a href="/productDetails?id=<%=relatedProducts[i]._id%>" tabindex="0">
+                                                                <img class="default-img"
+                                                                    src="/<%=relatedProducts[i].image[0]%>" alt="">
+                                                                <img class="hover-img"
+                                                                    src="/<%=relatedProducts[i].image[0]%>" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-action-1">
+                                                            <%if(user){%>
+                                                            <a aria-label="Add To Wishlist"
+                                                                class="action-btn small hover-up"
+                                                                href="/addToWishlist?id=<%=relatedProducts[i]._id%>" tabindex="0"><i
+                                                                    class="fi-rs-heart"></i></a>
+                                                                    <%}else{%>
+                                                                        <a aria-label="Add To Wishlist"
+                                                                        class="action-btn small hover-up"
+                                                                        href="/login" tabindex="0"><i
+                                                                            class="fi-rs-heart"></i></a>
+                                                                        <%}%>
+                                                        </div>
+                                                        <div
+                                                            class="product-badges product-badges-position product-badges-mrg">
+                                                            <%if(relatedProducts[i].tags.length>
+                                                                                                0){%>
+                                                                                                <span class="hot">
+                                                                                                    <%=relatedProducts[i].tags%>
+                                                                                                </span>
+                                                                                                <%}else{%>
+                                                                                                    <span></span>
+                                                                                                    <%}%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-content-wrap">
+                                                        <h2><a
+                                                            href="/productDetails?id=<%=relatedProducts[i]._id%>">
+                                                            <%=relatedProducts[i].title%>
+                                                        </a></h2>
+                                                       
+                                                        <div class="product-price">
+                                                            <%if(locals.relatedProducts[i].bestDiscount>
+                                                            0){%>
+                                                            <span>र<%=
+                                                                    relatedProducts[i].salePrice.toFixed(2)
+                                                                    %>
+                                                                    </span>
+
+                                                            <span
+                                                                class="old-price">र
+                                                                <%=relatedProducts[i].regularPrice%>
+                                                                    </span>&nbsp;&nbsp;&nbsp;
+                                                            <span
+                                                                class="text-muted">
+                                                                <%=relatedProducts[i].bestDiscount%>
+                                                                    % OFF
+                                                            </span>
+                                                            <%}else{%>
+                                                                <span>र
+                                                                    <%=relatedProducts[i].salePrice%>
+                                                                        </span>
+                                                                <%}%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%}%>
+                                <%if(locals.banner){%>
+                                    <% for (let i=0; i < banner.length; i++) { %>
+                                        <%if(banner[i].bannerName=='Banner-Two'){%>
+                                            <section class="banner-2 section-padding pb-0">
+                                                <div class="container">
+                                                    <div
+                                                        class="banner-img banner-big wow fadeIn animated f-none" >
+                                                        <img src="/<%=banner[i].bannerImage[0]%>"
+                                                            style="width: 100%; height:fit-content">
+                                                        <div class="banner-text d-md-block d-none">
+                                                           
+                                                            <h1 class="fw-600 mb-20 text-white"> <br>Authorised
+                                                                 Providers</h1>
+                                                            <a href="/shop" class="btn">Shop <i class="fi-rs-arrow-right"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section> 
+                                            <%}%>
+                                                <%}%>
+                                                    <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <%- include('footer') %>
+            <!-- Preloader Start -->
+            <div id="preloader-active">
+                <div class="preloader d-flex align-items-center justify-content-center">
+                    <div class="preloader-inner position-relative">
+                        <div class="text-center">
+                            <h5 class="mb-5">Now Loading</h5>
+                            <div class="loader">
+                                <div class="bar bar1"></div>
+                                <div class="bar bar2"></div>
+                                <div class="bar bar3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Vendor JS-->
+            <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+            <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+            <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+            <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+            <script src="assets/js/plugins/slick.js"></script>
+            <script src="assets/js/plugins/jquery.syotimer.min.js"></script>
+            <script src="assets/js/plugins/wow.js"></script>
+            <script src="assets/js/plugins/jquery-ui.js"></script>
+            <script src="assets/js/plugins/perfect-scrollbar.js"></script>
+            <script src="assets/js/plugins/magnific-popup.js"></script>
+            <script src="assets/js/plugins/select2.min.js"></script>
+            <script src="assets/js/plugins/waypoints.js"></script>
+            <script src="assets/js/plugins/counterup.js"></script>
+            <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+            <script src="assets/js/plugins/images-loaded.js"></script>
+            <script src="assets/js/plugins/isotope.js"></script>
+            <script src="assets/js/plugins/scrollup.js"></script>
+            <script src="assets/js/plugins/jquery.vticker-min.js"></script>
+            <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
+            <script src="assets/js/plugins/jquery.elevatezoom.js"></script>
+            <!-- Template  JS -->
+            <script src="assets/js/maind134.js?v=3.4"></script>
+            <script src="assets/js/shopd134.js?v=3.4"></script>
+</body>
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-product-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:46 GMT -->
+
+</html>
