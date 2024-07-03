@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Decor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-custom {
+            background-color: rgb(59, 93, 80);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link,
+        .navbar-custom .dropdown-toggle {
+            color: rgb(243, 243, 247);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a href="/" class="brand-wrap">
+        <img src="/assets/images/blue-house-icon-isolated.jpg" class="logo" alt="" style="height: 25px; width: 25px;">
+    </a>&nbsp;&nbsp;
+    <a class="navbar-brand" href="/">Home Decor</a>
+
+    
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">Home</span></a>
+          </li>
+          <% if (user) { %>
+          <li class="nav-item active">
+            <a class="nav-link" href="">Shop</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="">Cart</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="">About Us</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="">Contact Us</a>
+          </li>
+          
+          <% } %>
+        </ul>
+          <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle mr-5" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+      style="color: black;background-color: rgb(224, 219, 219);">
+        <% if (user) { %>
+        <%= user %>
+        <% } else { %>
+        Account
+        <% } %>
+        
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% if (user) { %>
+        
+         <a class="dropdown-item" href="/logout">Logout</a>
+         <% } else { %>
+         <a class="dropdown-item" href="/login">Login</a>
+         <% } %>
+       
+      </div>
+    </div>
+         
+        
+      </div>
+    </nav>
+       </header>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+               
+ 
+
+
+      
+
+

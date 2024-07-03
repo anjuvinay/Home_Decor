@@ -35,9 +35,9 @@
                                 </div>
                                 <div class="row gx-3">
                                     <div class="col-md-4  mb-3">
-                                        <label for="product_sku" class="form-label">Size</label>
+                                        <label for="product_sku" class="form-label">Material</label>
                                         <input type="text" placeholder="Type here" class="form-control" id="product_sku"
-                                            name="weight" value="<%=products.size%>" required>
+                                            name="material" value="<%=products.material%>" required>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <label for="product_color" class="form-label">Color</label>
@@ -51,14 +51,12 @@
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <select class="form-select" name="brand"  required>
-                                        <%for(i=0;i<brand.length;i++){%>
-                                            <option value="<%=brand[i]._id%>"
-                                                <%if(products.brandId.brandName===brand[i].brandName){%>selected
-                                                <%}%>><%=brand[i].brandName%>
-                                            </option>
-                                            <%}%>
-                                        </select>
+                                    <label for="product_brand" class="form-label">Brand</label>
+                                    <select class="form-select" id="product_brand" name="brand" required>
+                                        <% for (let i = 0; i < brand.length; i++) { %>
+                                            <option value="<%= brand[i]._id %>" <% if (products.brandId.equals(brand[i]._id)) { %>selected<% } %>><%= brand[i].brandName %></option>
+                                        <% } %>
+                                    </select>
                                 </div>
                             </div>
                         </div> <!-- card end// -->
@@ -107,7 +105,7 @@
                     <div class="col-lg-3">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4>Media</h4>
+                                <h4>images</h4>
                             </div>
 
 
@@ -187,12 +185,10 @@
                                         <h5 class="mb-3">Categories</h5>
                                         <div class="mb-4">
                                             <select class="form-select" name="category" required>
-                                                <%for(i=0;i<category.length;i++){%>
-                                                    <option value="<%=category[i]._id%>"
-                                                        <%if(products.categoryId.categoryName===category[i].categoryName){%>selected
-                                                        <%}%>><%=category[i].categoryName%>
-                                                    </option>
-                                                    <%}%>
+                                                <% for (let i = 0; i < category.length; i++) { %>
+                                                    <option value="<%= category[i]._id %>" 
+                                                        <% if (products.categoryId.equals(category[i]._id)) { %>selected<% } %>><%= category[i].categoryName %></option>
+                                                <% } %>
                                             </select>
                                         </div>
                                     </div>

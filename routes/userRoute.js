@@ -8,11 +8,9 @@ const userController = require('../controllers/userControllers')
 
 
 
-userRoute.get("/",(req,res)=>{
-    res.render("index")
-})
 
 
+userRoute.get('/',userController.loadHome)
 userRoute.get('/signup', userController.loadSignup)
 userRoute.post('/signup', userController.checkUniqueEmail, userController.checkUniqueMobile, userController.insertUser)
 userRoute.get('/verifyOtp', userController.sendOtp)

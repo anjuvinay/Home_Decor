@@ -58,11 +58,26 @@ verifyLogin : async (req, res) => {
 },
 
 
+Logout : async (req, res) => {
+    try {
+        req.session.destroy()
+        res.redirect('/admin/')
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
+
+
 
 loadDashboard : async (req, res) => {
     try {
+        const userCount = await User.find({ is_admin: false }).count()
+        const catCount = await Category.find({}).count()
+        const brandCount = await Brand.find({}).count()
+        const productCount = await Product.find({}).count()
         let admin = req.session.adminName;
-        res.render('home',{admin:admin})
+        res.render('home',{admin:admin,userCount,catCount,brandCount,productCount})
     } catch (error) {
         res.redirect('/500')
     }
@@ -338,6 +353,16 @@ addNewProduct : async (req, res) => {
                 .resize({ width: 200, height: 200 })
                 .toFile(resizedImagePath);
 
+
+                //Remove the original uploaded image
+                fs.unlink(imagePath, (err) => {
+                    if (err) {
+                        console.error('Failed to delete original image', err);
+                    } else {
+                        console.log('Original image deleted successfully');
+                    }
+                });
+
             return resizedImagePath;
         });
 
@@ -347,7 +372,7 @@ addNewProduct : async (req, res) => {
 
         const productData = {
             title: req.body.title.trim(),
-            size: req.body.weight.trim(),
+            material: req.body.material.trim(),
             color: req.body.color.trim(),
             shape: req.body.shape.trim(),
             brandId: req.body.brand.trim(),
@@ -436,16 +461,32 @@ unBlockProductList : async (req, res) => {
 },
 
 
-deleteProduct : async (req, res) => {
+
+deleteProduct: async (req, res) => {
     try {
-        const id = req.query.productId
-        const productData = await Product.deleteOne({ _id: id })
-        if (productData) {
-            res.redirect('/admin/productsList')
+        const id = req.query.productId;
+
+        // Retrieve the product to get image paths
+        const product = await Product.findById(id);
+        if (!product) {
+            res.status(404).send('Product not found');
+            return;
         }
+
+        // Delete the images from the file system
+        product.image.forEach(imagePath => {
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
+        });
+
+        // Delete the product from the database
+        await Product.deleteOne({ _id: id });
+
+        res.redirect('/admin/productsList');
     } catch (error) {
-        console.log(error.message)
-        res.redirect('/500')
+        console.log(error.message);
+        res.redirect('/500');
     }
 },
 
@@ -470,38 +511,151 @@ editProductList : async (req, res) => {
 },
 
 
+
+// loadEditProductList: async (req, res) => {
+//     try {
+//         const id = req.query.id;
+//         const product = await Product.findOne({ _id: id });
+
+//         // Delete old images from the filesystem
+//         product.image.forEach((imagePath) => {
+//             fs.unlink(path.resolve(imagePath), (err) => {
+//                 if (err) {
+//                     console.error(`Failed to delete image: ${imagePath}`, err);
+//                 }
+//             });
+//         });
+
+//         // Resize new images and prepare the array of new image paths
+//         let Newimages = [];
+//         await Promise.all(req.files.map(async (file) => {
+//             const imagePath = `uploads/${file.filename}`;
+//             const resizedImagePath = `uploads/resized_${file.filename}`;
+
+//             // Resize the image
+//             await sharp(imagePath)
+//                 .resize({ width: 200, height: 200 })
+//                 .toFile(resizedImagePath);
+
+
+//                 //to remove the original image
+//                 fs.unlink(imagePath, (err) => {
+//                     if (err) {
+//                         console.error('Failed to delete original image', err);
+//                     } else {
+//                         console.log('Original image deleted successfully');
+//                     }
+//                 });
+
+//             Newimages.push(resizedImagePath);
+//         }));
+
+//         // Replace old images with new images
+//         product.image = Newimages;
+
+//         // Save the product with new images
+//         await product.save();
+
+//         let salePrice;
+//         if (req.body.discountPercentage.trim() > 0) {
+//             salePrice = req.body.regularPrice - (req.body.regularPrice.trim() * req.body.discountPercentage / 100);
+//         } else {
+//             salePrice = req.body.regularPrice.trim();
+//         }
+
+//         const categoryData = await Category.findById(product.categoryId);
+//         const catDiscountPercentage = categoryData.discount;
+
+//         const bestDiscount = req.body.discountPercentage > catDiscountPercentage
+//             ? req.body.discountPercentage
+//             : catDiscountPercentage;
+
+//         const userData = await Product.findByIdAndUpdate(
+//             { _id: id },
+//             {
+//                 $set: {
+//                     title: req.body.title.trim(),
+//                     material: req.body.material.trim(),
+//                     color: req.body.color.trim(),
+//                     shape: req.body.shape.trim(),
+//                     brandId: req.body.brand.trim(),
+//                     description: req.body.description.trim(),
+//                     regularPrice: req.body.regularPrice.trim(),
+//                     discountPercentage: req.body.discountPercentage.trim(),
+//                     bestDiscount: bestDiscount,
+//                     salePrice: salePrice,
+//                     quantity: req.body.quantity.trim(),
+//                     categoryId: req.body.category.trim(),
+//                     rating: req.body.rating.trim(),
+//                 }
+//             }
+//         );
+
+//         if (userData) {
+//             res.redirect('/admin/productsList');
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//         res.redirect('/500');
+//     }
+// }
+
+
+
 loadEditProductList : async (req, res) => {
     try {
-        const id = req.query.id
-        const product = await Product.findOne({ _id: id })
-        // console.log(req.files);
-        let Newimages = []
-        await Promise.all(req.files.map(async (file) => {
-            const imagePath = `uploads/${file.filename}`;
-            const resizedImagePath = `uploads/resized_${file.filename}`;
+        const id = req.query.id;
+        const product = await Product.findOne({ _id: id });
 
-            // Resize the image
-            await sharp(imagePath)
-                .resize({ width: 200, height: 200 })
-                .toFile(resizedImagePath);
+        let Newimages = [];
+        if (req.files.length > 0) {
+            // Resize new images and prepare the array of new image paths
+            await Promise.all(req.files.map(async (file) => {
+                const imagePath = `uploads/${file.filename}`;
+                const resizedImagePath = `uploads/resized_${file.filename}`;
 
-            Newimages.push(resizedImagePath);
-        }));
-        Newimages.forEach((image) => {
-            product.image.push(image);
-        });
+                // Resize the image
+                await sharp(imagePath)
+                    .resize({ width: 200, height: 200 })
+                    .toFile(resizedImagePath);
 
-        // Save the product
-        await product.save();
-        let salePrice
-        if (req.body.discountPercentage.trim() > 0) {
-            salePrice = req.body.regularPrice - (req.body.regularPrice.trim() * req.body.discountPercentage / 100)
+                // Remove the original image
+                fs.unlink(imagePath, (err) => {
+                    if (err) {
+                        console.error('Failed to delete original image', err);
+                    } else {
+                        console.log('Original image deleted successfully');
+                    }
+                });
+
+                Newimages.push(resizedImagePath);
+            }));
+
+            // Delete old images from the filesystem
+            product.image.forEach((imagePath) => {
+                fs.unlink(path.resolve(imagePath), (err) => {
+                    if (err) {
+                        console.error(`Failed to delete image: ${imagePath}`, err);
+                    }
+                });
+            });
+
+            // Replace old images with new images
+            product.image = Newimages;
         } else {
-            salePrice = req.body.regularPrice.trim()
+            // Keep the old images if no new images are uploaded
+            Newimages = product.image;
         }
 
-        const categoryData = await Category.findById(product.categoryId)
-        const catDiscountPercentage = categoryData.discount
+        let salePrice;
+        if (req.body.discountPercentage.trim() > 0) {
+            salePrice = req.body.regularPrice - (req.body.regularPrice.trim() * req.body.discountPercentage / 100);
+        } else {
+            salePrice = req.body.regularPrice.trim();
+        }
+
+        const categoryData = await Category.findById(product.categoryId);
+        const catDiscountPercentage = categoryData.discount;
 
         const bestDiscount = req.body.discountPercentage > catDiscountPercentage
             ? req.body.discountPercentage
@@ -512,7 +666,7 @@ loadEditProductList : async (req, res) => {
             {
                 $set: {
                     title: req.body.title.trim(),
-                    size: req.body.weight.trim(),
+                    material: req.body.material.trim(),
                     color: req.body.color.trim(),
                     shape: req.body.shape.trim(),
                     brandId: req.body.brand.trim(),
@@ -523,20 +677,20 @@ loadEditProductList : async (req, res) => {
                     salePrice: salePrice,
                     quantity: req.body.quantity.trim(),
                     categoryId: req.body.category.trim(),
-                   
                     rating: req.body.rating.trim(),
+                    image: Newimages // Ensure images are updated here
                 }
             }
         );
-        if (userData)
-            res.redirect('/admin/productsList')
+
+        if (userData) {
+            res.redirect('/admin/productsList');
+        }
     } catch (error) {
-        console.log(error.message)
-        res.redirect('/500')
+        console.log(error.message);
+        res.redirect('/500');
     }
 }
-
-
 
 
 

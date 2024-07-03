@@ -1,6 +1,7 @@
 
 const User = require('../models/userModel')
 const { json } = require('express')
+const session = require('express-session')
 require('dotenv').config()
 const bcrypt=require("bcrypt")
 const nodemailer =require('nodemailer')
@@ -8,17 +9,31 @@ const RandomString = require('randomstring')
 const cron = require('node-cron')
 
 
-const loadSignup = async (req, res) => {
+module.exports = {
+
+loadHome : async (req,res)=>{
+    try {
+        let user = req.session.userName;
+
+        res.render("index",{user:user})
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+
+},
+
+loadSignup : async (req, res) => {
     try {
         res.render('user_signup', { message: '' })
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
-const checkUniqueEmail = async (req, res, next) => {
+checkUniqueEmail : async (req, res, next) => {
     const { email } = req.body;
 
     try {
@@ -36,10 +51,10 @@ const checkUniqueEmail = async (req, res, next) => {
         console.log(err.message)
         res.redirect('/500')
     }
-};
+},
 
 
-const checkUniqueMobile = async (req, res, next) => {
+checkUniqueMobile : async (req, res, next) => {
     const { mobile } = req.body;
 
     try {
@@ -57,11 +72,11 @@ const checkUniqueMobile = async (req, res, next) => {
         console.log(err.message)
         res.redirect('/500')
     }
-};
+},
 
 
 
-const insertUser = async (req, res) => {
+insertUser : async (req, res) => {
     try {
         if (req.body.password == req.body.confirmPassword) {
             const obj = {
@@ -86,10 +101,10 @@ const insertUser = async (req, res) => {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
-const sendOtp = async (req, res) => {
+sendOtp : async (req, res) => {
     // req.session.otpIsVerified = true
     try {
         const { email } = req.session.data
@@ -134,10 +149,10 @@ const sendOtp = async (req, res) => {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
-const verifyOtp = async (req, res) => {
+verifyOtp : async (req, res) => {
     try {
         const otp = req.session.otp
         const randomotp = req.body.otp
@@ -199,10 +214,10 @@ const verifyOtp = async (req, res) => {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
-const loginLoad = async (req, res) => {
+loginLoad : async (req, res) => {
     try {
 
         if (req.query.message === 'blocked') {
@@ -214,10 +229,10 @@ const loginLoad = async (req, res) => {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
-const verifyLogin = async (req, res) => {
+verifyLogin : async (req, res) => {
     try {
         const email = req.body.email
 
@@ -228,6 +243,7 @@ const verifyLogin = async (req, res) => {
         // console.log(userData.address[0].fname);
         if (userData) {
             // if (userData.is_active == true) {
+                req.session.userName=userData.name
                 
                 const passwordMatch=await bcrypt.compare(password,userData.password)
                 
@@ -248,7 +264,7 @@ const verifyLogin = async (req, res) => {
         console.log(error.message)
         res.redirect('/500')
     }
-}
+},
 
 
 
@@ -265,13 +281,5 @@ const verifyLogin = async (req, res) => {
 
 
 
-module.exports = {
-    loadSignup,
-    insertUser,
-    sendOtp,
-    verifyOtp,
-    loginLoad,
-    verifyLogin,
-    checkUniqueEmail,
-    checkUniqueMobile
+
 }

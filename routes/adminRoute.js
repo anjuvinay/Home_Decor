@@ -14,6 +14,8 @@ adminRoute.set('views', './views/admin')
 
 adminRoute.get('/', adminController.loadLogin)
 adminRoute.post('/', adminController.verifyLogin)
+adminRoute.get('/logout', adminController.Logout)
+
 
 adminRoute.get('/home',auth.isLogin, adminController.loadDashboard)
 
