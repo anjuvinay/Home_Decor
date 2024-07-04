@@ -4,6 +4,7 @@ const session = require('express-session')
 userRoute.set('view engine', 'ejs')
 userRoute.set('views', './views/user')
 const userController = require('../controllers/userControllers')
+const auth = require('../middlewares/userAuth')
 
 
 
@@ -18,7 +19,7 @@ userRoute.post('/verifyOtp', userController.verifyOtp)
 userRoute.get('/login', userController.loginLoad)
 userRoute.post('/login', userController.verifyLogin)
 userRoute.get('/logout', userController.userLogout)
-userRoute.get('/productDetails', userController.productDetails)
+userRoute.get('/productDetails',auth.isLogin, userController.productDetails)
 
 
 

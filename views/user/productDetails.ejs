@@ -94,21 +94,12 @@
                                             </h2>
                                             <div class="product-detail-rating">
                                                 <div class="pro-details-brand">
-                                                    <span> Brand: <a href="shop-grid-right.html">
-                                                            <%=product.brandId%>
-                                                        </a></span>
+                                                    <span> Brand: 
+                                                            <%=product.brandId.brandName %>
+                                                    </span>
+                                                   
                                                 </div>
-                                                <%if(product.productReview.length>0){%>
-                                                    <div class="product-rate-cover text-end">
-                                                        <div class="product-rate d-inline-block">
-                                                            <div class="product-rating" id="product-ratingtop">
-                                                            </div>
-                                                        </div>
-                                                        <span class="font-small ml-5 text-muted"> (
-                                                            <%=product.productReview.length%> reviews)
-                                                        </span>
-                                                    </div>
-                                                    <%}%>
+                                               
                                             </div>
                                             <div class="clearfix product-price-cover">
                                                 <div class="product-price primary-color float-left">
@@ -150,14 +141,12 @@
                                                     <%if(product.quantity>=1){%>
                                                         <div class="detail-qty border radius">
                                                             <a href="#" class="qty-down"
-                                                                onclick="updateQuantity(-1); return false;"><i
-                                                                    class="fi-rs-angle-small-down"></i></a>
+                                                                onclick="updateQuantity(-1); return false;">-</a>
                                                             <span class="qty-val" id="quantitySpan">1</span>
                                                             <input type="number" class="qty-input" name="quantity"
                                                                 value="1" max="<%=product.quantity%>" hidden>
                                                             <a href="#" class="qty-up"
-                                                                onclick="updateQuantity(1); return false;"><i
-                                                                    class="fi-rs-angle-small-up"></i></a>
+                                                                onclick="updateQuantity(1); return false;">+</a>
 
                                                         </div>
                                                         <%if(locals.message){%>
@@ -171,21 +160,7 @@
                                                                         class="button button-add-to-cart">Add to
                                                                         cart</button>
                                                                         
-
-                                                                    <%if(user){%>
-                                                                        <a aria-label="Add To Wishlist"
-                                                                            class="action-btn hover-up"
-                                                                            href="/addToWishlist?id=<%=product._id%>"><i
-                                                                                class="fi-rs-heart"></i></a>
-                                                                        <%}else{%>
-                                                                            <a aria-label="Add To Wishlist"
-                                                                                class="action-btn hover-up"
-                                                                                href="/login"><i
-                                                                                    class="fi-rs-heart"></i></a>
-                                                                            <%}%>
-                                                                                <!-- <a aria-label="Add To Wishlist" class="action-btn hover-up" href="/addToWishlist?id=<%=product._id%>"><i class="fi-rs-heart"></i></a> -->
-                                                                                <!-- <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
-                                                                </div>
+                                                                  </div>
                                                                 <%}else{%>
                                                                     <span
                                                                         class=" text-success font-weight-bold ">Currently
@@ -223,10 +198,16 @@
 
                                             </div>
                                             <ul class="product-meta font-xs color-grey mt-50">
-                                                <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
-                                                <li class="mb-5">Tags: <a href="#" rel="tag">
-                                                        <%=product.tags%>
-                                                    </a></li>
+                                                
+                                                <li class="mb-5">Rating: 
+                                                    <% for (var i = 0; i < 5; i++) { %>
+                                                        <% if (i < product.rating) { %>
+                                                            <i class="fa fa-star" style="color: gold;"></i>
+                                                        <% } else { %>
+                                                            <i class="fa fa-star" style="color: lightgray;"></i>
+                                                        <% } %>
+                                                    <% } %>
+                                                </li>
                                                 <li>Availability:
                                                     <%if(product.quantity>0){%>
                                                         <span class="in-stock text-success ml-5">
@@ -238,6 +219,7 @@
 
 
                                                 </li>
+
                                             </ul>
                                         </div>
                                         <!-- Detail Info -->
@@ -272,12 +254,7 @@
                                                         <p><%=product.shape%></p>
                                                     </td>
                                                 </tr>
-                                                <tr class="pa_size">
-                                                    <th>Weight</th>
-                                                    <td>
-                                                        <p><%=product.weight%></p>
-                                                    </td>
-                                                </tr>
+                                               
                                             </tbody>
                                         </table>
                                     </div>

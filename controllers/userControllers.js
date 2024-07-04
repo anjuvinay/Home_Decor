@@ -165,26 +165,8 @@ verifyOtp : async (req, res) => {
         } else {
             const { name, email, mobile, password, referralCode } = req.session.data
 
-            // console.log(req.session.otpIsVerified);
-            // if (req.session.otpIsVerified) {
             if (randomotp == otp) {
 
-
-                // const myReferralCode = await generateReferralCode();
-
-                // async function generateReferralCode() {
-                //     const randomString = RandomString.generate(5);
-                //     const randomNumber = Math.floor(100 + Math.random() * 900).toString();
-                //     const RandomReferralCode = randomString + randomNumber;
-
-                    // const userData = await User.findOne({ RandomReferralCode });
-
-                    // if (userData) {
-                    //     return await generateReferralCode();
-                    // } else {
-                    //     return RandomReferralCode;
-                    // }
-                // }
 
                 const salt=await bcrypt.genSalt(10)
                 const hashedPassword=await bcrypt.hash(password,salt)
@@ -193,17 +175,10 @@ verifyOtp : async (req, res) => {
                     email: email,
                     mobile: mobile,
                     password: hashedPassword,
-                    // is_admin: 0,
-                    // referralCode: myReferralCode
-
+                   
                 })
                 await user.save()
-
-                // if (referralCode) {
-                //     await User.findOneAndUpdate({ referralCode: referralCode }, { $inc: { wallet: +200 } })
-                //     await User.findOneAndUpdate({ email: email }, { $set: { wallet: 100 } })
-                // }
-
+              
                 res.redirect('/login')
             } else {
                 res.render('otpverification', { message: 'Invalid Otp' })
@@ -240,11 +215,9 @@ verifyLogin : async (req, res) => {
 
         const password = req.body.password
         const userData = await User.findOne({ email: email })
-        // const productData = await Product.find({ is_active: true, catStatus: true })
-        // console.log(productData)
-        // console.log(userData.address[0].fname);
+       
         if (userData) {
-            // if (userData.is_active == true) {
+           
                 req.session.userName=userData.name
                 
                 const passwordMatch=await bcrypt.compare(password,userData.password)
@@ -259,9 +232,7 @@ verifyLogin : async (req, res) => {
                 res.redirect('/login?message=blocked');
             }
 
-        // } else {
-        //     res.render('login', { message: 'User not found' })
-        // }
+       
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
@@ -284,7 +255,7 @@ productDetails : async (req, res) => {
     try {
         const id = req.query.id
         let user = req.session.userName;
-        const productData = await Product.findById({ _id: id })
+        const productData = await Product.findById({ _id: id }).populate('brandId')
         const categoryId=productData.categoryId
       
         const relatedProducts= await Product.find({categoryId:categoryId,is_active:true}).limit(4)

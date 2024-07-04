@@ -22,4 +22,4 @@ const brandSchema=mongoose.Schema({
 
 })
 
-module.exports=mongoose.model('brand',brandSchema)
+module.exports=mongoose.model('Brand',brandSchema)
