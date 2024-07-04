@@ -1,22 +1,10 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-product-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:46 GMT -->
-
 <head>
     <meta charset="utf-8">
-    <title>OZORA</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
-
+    <title>Home Decor</title>
+   
     <!--for rating-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
@@ -34,8 +22,11 @@
         }
 
         input[type="checkbox"]:checked+label {
+           
             color: gold;
         }
+
+        
     </style>
     <!--rating end-->
     <!-- Template CSS -->
@@ -47,14 +38,14 @@
 <body>
     
    
-    <%- include('header') %>
+    <%- include('userHeader') %>
         <main class="main">
             <div class="page-header breadcrumb-wrap">
                 <div class="container">
                     <div class="breadcrumb">
                         <a href="" rel="nofollow">Home</a>
                         <span></span> Shop
-                        <span></span> Details
+                        <span></span> view product
                     </div>
                 </div>
             </div>
@@ -67,28 +58,34 @@
                                     <div class="col-md-6 col-sm-12 col-xs-12">
                                         <div class="detail-gallery">
                                             <span class="zoom-icon"><i class="fi-rs-search"></i></span>
-                                            <!-- MAIN SLIDES -->
+                                            <!-- Main image -->
                                             <div class="product-image-slider bg-white"
                                                 style="max-width: 570px; max-height: 570px; ">
-                                                <%for(i=0;i<product.image.length;i++){%>
+                                               
                                                     <figure class="border-radius-10">
-                                                        <a href="/<%=product.image[i]%>" class="MagicZoom">
+                                                        <a href="/<%=product.image[0]%>" class="MagicZoom">
 
-                                                            <img src="/<%=product.image[i]%>" alt="product image"
+                                                            <img src="/<%=product.image[0]%>" alt="product image"
                                                                 style="max-width: 100%;">
                                                         </a>
                                                     </figure>
-                                                    <%}%>
+                                                   
                                             </div>
-                                            <!-- THUMBNAILS -->
-                                            <div class="slider-nav-thumbnails pl-15 pr-15 bg-white">
-                                                <%for(i=0;i<product.image.length;i++){%>
-                                                    <div><img src="/<%=product.image[i]%>" alt="product image"></div>
-                                                    <%}%>
+                                           
 
+                                            <div class="bg-white flex-container">
+                                                <% for (var i = 0; i < product.image.length; i++) { %>
+                                                    <figure class="border-radius-10 flex-item" style="display: inline-flex;">
+                                                       <a href="/<%=product.image[i]%>" class="MagicZoom">
+                                                        <img src="/<%= product.image[i] %>" class="MagicZoom" alt="Product image" style="height: 8rem; width: 100%;"></a> 
+                                                    </a>
+                                                    </figure>
+                                                <% } %>
                                             </div>
+                                          
+                                            
                                         </div>
-                                        <!-- End Gallery -->
+                                        <!-- End image -->
                                     </div>
                                     <div class="col-md-6 col-sm-12 col-xs-12">
                                         <div class="detail-info">
@@ -98,7 +95,7 @@
                                             <div class="product-detail-rating">
                                                 <div class="pro-details-brand">
                                                     <span> Brand: <a href="shop-grid-right.html">
-                                                            <%=product.brandId.brandName%>
+                                                            <%=product.brandId%>
                                                         </a></span>
                                                 </div>
                                                 <%if(product.productReview.length>0){%>
@@ -283,178 +280,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        
-                                        <!-- <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3> -->
-                                        <!--Comments-->
-                                        <%if(product.productReview.length>0){%>
-                                            <div class="comments-area style-2">
-                                                <div class="row">
-                                                    <div class="col-lg-8">
-                                                        <h4 class="mb-30">Customer Reviews</h4>
-                                                        <div class="comment-list">
-                                                            <% for (let i = 0; i < (product.productReview.length > 5 ? 5 : product.productReview.length); i++) { %>
-                                                                <div
-                                                                    class="single-comment justify-content-between d-flex">
-                                                                    <div class="user justify-content-between d-flex">
-                                                                        <div class="thumb text-center">
-                                                                            <img src="assets/imgs/page/avatar-6.jpg"
-                                                                                alt="">
-                                                                            <h6><a href="#">
-                                                                                    <%=product.productReview[i].userId.name%>
-                                                                                </a></h6>
-                                                                            <p class="font-xxs">Since
-                                                                                <%=product.productReview[i].userId.date%>
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="desc">
-
-                                                                            <div class="star-rating" id="ratingStars">
-                                                                                <% for (let j=1; j <=5; j++) { %>
-                                                                                    <input disabled type="checkbox"
-                                                                                        id="star<%= j %>" <% if
-                                                                                        (product.productReview[i].rating>=
-                                                                                    j) { %>checked<% } %> name="rating"
-                                                                                        value="<%= j %> " />
-                                                                                            <label for="star<%= j %>"
-                                                                                                class="star"><i
-                                                                                                    class="fas fa-star"></i></label>
-                                                                                            <% } %>
-
-
-                                                                            </div>
-
-
-                                                                            <p>
-                                                                                <%=product.productReview[i].comment%>
-                                                                            </p>
-                                                                            <div class="d-flex justify-content-between">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <p class="font-xs mr-30">
-                                                                                        <%=product.productReview[i].date.toLocaleString()%>
-                                                                                    </p>
-                                                                                    <!-- <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a> -->
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <%}%>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <h4 class="mb-30">Customer reviews</h4>
-                                                        <div class="d-flex mb-30">
-                                                            <div class="product-rate d-inline-block mr-15">
-                                                                <div class="product-rating" id="product-rating">
-                                                                </div>
-                                                            </div>
-
-                                                            <h6 id="rating-message"></h6>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <span>5 star</span>
-                                                            <div class="progress-bar" role="progressbar" id="ratingFive"
-                                                                aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <span>4 star</span>
-                                                            <div class="progress-bar" role="progressbar" id="ratingFour"
-                                                                aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <span>3 star</span>
-                                                            <div class="progress-bar" role="progressbar"
-                                                                id="ratingThree" aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <span>2 star</span>
-                                                            <div class="progress-bar" role="progressbar" id="ratingTwo"
-                                                                aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-                                                        <div class="progress mb-30">
-                                                            <span>1 star</span>
-                                                            <div class="progress-bar" role="progressbar" id="ratingOne"
-                                                                aria-valuemin="0" aria-valuemax="100">
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <%}%>
-                                                <!--comment form-->
-                                                <script>
-                                                    window.onload = function () {
-                                                        // Replace these sample ratings with your actual ratings
-
-
-                                                        // Calculate average rating
-                                                        let totalRating = 0
-                                                        let ratingOne = 0
-                                                        let ratingTwo = 0
-                                                        let ratingThree = 0
-                                                        let ratingFour = 0
-                                                        let ratingFive = 0
-                                                            <% for (let i = 0; i < product.productReview.length; i++) { %>
-                                                                totalRating += <%= product.productReview[i].rating %>;
-                                                        <% if (product.productReview[i].rating == '1') { %>
-                                                                    ratingOne++
-                                                                    <% } else if (product.productReview[i].rating == '2') { %>
-                                                                        ratingTwo++
-                                                                        <% } else if (product.productReview[i].rating == '3') { %>
-                                                                            ratingThree++
-                                                                            <%  } else if (product.productReview[i].rating == '4') { %>
-                                                                                ratingFour++
-                                                                                <% } else if (product.productReview[i].rating == '5') { %>
-                                                                                    ratingFive++
-                                                                                    <% } %>
-                                            <% } %>
-                                            const averageRating = totalRating / <%=product.productReview.length%>;
-
-                                                        // Set up average rating
-                                                        const averageRatingContainer = document.getElementById('product-rating'); // Make sure you have this element in your HTML
-                                                        if (averageRatingContainer) {
-                                                            averageRatingContainer.style.width = `${(averageRating / 5) * 100}%`;
-                                                        }
-                                                        console.log((averageRating / 5) * 100)
-                                                        document.getElementById('product-ratingtop').style.width = `${(averageRating / 5) * 100}%`;
-                                                        let oneStar = document.getElementById('ratingOne')
-                                                        let twoStar = document.getElementById('ratingTwo')
-                                                        let threeStar = document.getElementById('ratingThree')
-                                                        let fourStar = document.getElementById('ratingFour')
-                                                        let fiveStar = document.getElementById('ratingFive')
-                                                        
-                                                        oneStar.style.width = `${ Math.round((ratingOne / <%= product.productReview.length %>) * 100) }% `;
-                                                       oneStar.innerHTML = `${ Math.round((ratingOne / <%= product.productReview.length %>) * 100) }% `;
-
-                                                        twoStar.style.width = `${ Math.round((ratingTwo / <%= product.productReview.length %>) * 100) }% `;
-                                                        twoStar.innerHTML = `${ Math.round((ratingTwo / <%= product.productReview.length %>) * 100) }% `;
-
-                                                        threeStar.style.width = `${ Math.round((ratingThree / <%= product.productReview.length %>) * 100) }% `;
-                                                        threeStar.innerHTML = `${ Math.round((ratingThree / <%= product.productReview.length %>) * 100) }% `;
-
-                                                        fourStar.style.width = `${ Math.round((ratingFour / <%= product.productReview.length %>) * 100) }% `;
-                                                        fourStar.innerHTML = `${ Math.round((ratingFour / <%= product.productReview.length %>) * 100) }% `;
-
-                                                        fiveStar.style.width = `${ Math.round((ratingFive / <%= product.productReview.length %>) * 100) }% `;
-                                                        fiveStar.innerHTML = `${ Math.round((ratingFive / <%= product.productReview.length %>) * 100) }% `;
-
-                                                    // Display average rating
-                                                    const averageRatingText = document.getElementById('rating-message');
-                                                    if (averageRatingText) {
-                                                        // Include the average rating within the h6 element
-                                                        averageRatingText.innerHTML = ` ${ averageRating.toFixed(1) } out of 5`;
-                                                    }
-
-                                                    // Log for debugging
-                                                    // console.log('Total Rating:', totalRating);
-                                                    // console.log('Average Rating:', averageRating);
-                                                };
-                                                </script>
                                     </div>
                                 </div>
                                 <%if(relatedProducts.length>0){%>
@@ -476,30 +301,7 @@
                                                                     src="/<%=relatedProducts[i].image[0]%>" alt="">
                                                             </a>
                                                         </div>
-                                                        <div class="product-action-1">
-                                                            <%if(user){%>
-                                                            <a aria-label="Add To Wishlist"
-                                                                class="action-btn small hover-up"
-                                                                href="/addToWishlist?id=<%=relatedProducts[i]._id%>" tabindex="0"><i
-                                                                    class="fi-rs-heart"></i></a>
-                                                                    <%}else{%>
-                                                                        <a aria-label="Add To Wishlist"
-                                                                        class="action-btn small hover-up"
-                                                                        href="/login" tabindex="0"><i
-                                                                            class="fi-rs-heart"></i></a>
-                                                                        <%}%>
-                                                        </div>
-                                                        <div
-                                                            class="product-badges product-badges-position product-badges-mrg">
-                                                            <%if(relatedProducts[i].tags.length>
-                                                                                                0){%>
-                                                                                                <span class="hot">
-                                                                                                    <%=relatedProducts[i].tags%>
-                                                                                                </span>
-                                                                                                <%}else{%>
-                                                                                                    <span></span>
-                                                                                                    <%}%>
-                                                        </div>
+                                                       
                                                     </div>
                                                     <div class="product-content-wrap">
                                                         <h2><a
@@ -538,27 +340,7 @@
                                     </div>
                                 </div>
                                 <%}%>
-                                <%if(locals.banner){%>
-                                    <% for (let i=0; i < banner.length; i++) { %>
-                                        <%if(banner[i].bannerName=='Banner-Two'){%>
-                                            <section class="banner-2 section-padding pb-0">
-                                                <div class="container">
-                                                    <div
-                                                        class="banner-img banner-big wow fadeIn animated f-none" >
-                                                        <img src="/<%=banner[i].bannerImage[0]%>"
-                                                            style="width: 100%; height:fit-content">
-                                                        <div class="banner-text d-md-block d-none">
-                                                           
-                                                            <h1 class="fw-600 mb-20 text-white"> <br>Authorised
-                                                                 Providers</h1>
-                                                            <a href="/shop" class="btn">Shop <i class="fi-rs-arrow-right"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section> 
-                                            <%}%>
-                                                <%}%>
-                                                    <%}%>
+                               
                             </div>
                         </div>
                     </div>
@@ -566,21 +348,7 @@
             </section>
         </main>
         <%- include('footer') %>
-            <!-- Preloader Start -->
-            <div id="preloader-active">
-                <div class="preloader d-flex align-items-center justify-content-center">
-                    <div class="preloader-inner position-relative">
-                        <div class="text-center">
-                            <h5 class="mb-5">Now Loading</h5>
-                            <div class="loader">
-                                <div class="bar bar1"></div>
-                                <div class="bar bar2"></div>
-                                <div class="bar bar3"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
             <!-- Vendor JS-->
             <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
             <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
@@ -606,8 +374,5 @@
             <script src="assets/js/maind134.js?v=3.4"></script>
             <script src="assets/js/shopd134.js?v=3.4"></script>
 </body>
-
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/shop-product-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:46 GMT -->
 
 </html>

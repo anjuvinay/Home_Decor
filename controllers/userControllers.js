@@ -284,11 +284,13 @@ productDetails : async (req, res) => {
     try {
         const id = req.query.id
         let user = req.session.userName;
-        const productData = await Product.findById({ _id: id }).populate('productReview.userId').populate('brandId')
-       
+        const productData = await Product.findById({ _id: id })
+        const categoryId=productData.categoryId
+      
+        const relatedProducts= await Product.find({categoryId:categoryId,is_active:true}).limit(4)
       
         if (productData) {
-            res.render('productDetails', { product: productData, user: user})
+            res.render('productDetails', { product: productData, user: user, relatedProducts})
         } else {
             res.redirect('/home')
 

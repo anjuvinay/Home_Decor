@@ -350,7 +350,7 @@ addNewProduct : async (req, res) => {
             const imagePath = `uploads/${file.filename}`;
             const resizedImagePath = `uploads/resized_${file.filename}`;
             await sharp(imagePath)
-                .resize({ width: 200, height: 200 })
+                .resize({ width: 400, height: 400 })
                 .toFile(resizedImagePath);
 
 
