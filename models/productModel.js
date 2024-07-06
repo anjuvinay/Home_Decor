@@ -80,26 +80,8 @@ const productSchema = mongoose.Schema({
     rating:{
         type:Number,
         default: null
-    },
-    productReview: [
-        {
-            userId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            comment:{
-                type:String
-            },
-            rating:{
-                type:Number
-            },
-            date:{
-                type:Date
-            }
-        }
-    ]
-
-
+    }
+   
 })
 productSchema.index({ title: 'text' });
 

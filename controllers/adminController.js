@@ -15,11 +15,19 @@ module.exports = {
 
 loadLogin : async (req, res) => {
     try {
-        res.render('admin_login', { message: '' })
-    } catch (error) {
-        console.log(error.message)
-        res.redirect('/500')
+        console.log("The admin name IS: "+req.session.adminName)
+    if(req.session.adminName){
+        res.redirect('/admin/home')
     }
+      else{
+        const message = req.query.message || '';
+        res.render('admin_login', { message: message})
+    } 
+}
+catch (error) {
+    console.log(error.message)
+    res.redirect('/500')
+}
 },
 
 
@@ -33,22 +41,23 @@ verifyLogin : async (req, res) => {
         if (userData) {
             if (userData.is_admin === true) {
                 console.log(userData.password)
-                console.log(password)
                 const passwordMatch=await bcrypt.compare(password,userData.password)
                 console.log(passwordMatch)
+
                 if (passwordMatch) {
                     req.session.adminId = userData._id
                     req.session.adminName=userData.name
-                    // console.log(req.session.adminId)
                     res.redirect('/admin/home')
+
                 } else {
-                    res.render('login', { message: 'Invalid password' })
+                    res.render('admin_login', { message: 'Invalid password' })
+                    
                 }
             } else {
-                res.render('login', { message: 'Admin not found' })
+                res.render('admin_login', { message: 'Admin not found' })
             }
         } else {
-            res.render('login', { message: 'Admin not found' })
+            res.render('admin_login', { message: 'Admin not found' })
         }
 
     } catch (error) {

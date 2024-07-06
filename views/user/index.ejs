@@ -5,34 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Decor</title>
     <link href="/assets/css/styles.css" rel="stylesheet" type="text/css" />
+    
 </head>
 <body >
     <%- include('userHeader') %>
+
+   
     
-    <div class="header-container">
-        <div class="col-md-6 pl-5">
+    <!-- <div class="header-container">
+        <div class="col-md-6 col-sm-3 pl-5">
          <h2 style="color: rgb(209, 205, 205); font-weight: bold;">Modern Interior Design Studio</h2>
          <h6 style="color: rgb(209, 205, 205); font-weight: lighter;">Discover the joy of an organised Home</h6>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-9">
             <img src="/assets/images/14.png" class="sofa-image">
         </div>
         </div>
-  
+   -->
+
+
+   <div class="header-container">
+
+        <img src="/assets/images/org.png" class="sofa-image">
+    
+    </div>
+
 
 
         <section>
             <div class="container mt-5">
             <div class="row">
                 <% products.forEach((product, index)=> { %>
-              <div class="col-md-3 p-4 ml-5">
+              <div class="col-md-3 col-sm-12 p-4 ml-5">
                 <div class="card" style="width: 18rem; height:25rem">
           <img style="width: 18rem; height: 15rem;" src="/<%= product.image[0] %>" class="card-img-top" alt="...">
           <div class="card-body" style="align-self: center;">
             <h5 class="card-title"><%= product.title %></h5>
             <p class="card-text">Rs.<%= product.salePrice %></p>
           
-            <a href="/productDetails?id=<%= product._id %>" class="btn btn-primary">Shop</a>
+            <a href="/productDetails?id=<%= product._id %>" class="button button-add-to-cart">Shop</a>
             
           </div>
         </div>
@@ -46,7 +57,7 @@
     
         
            <%- include('footer') %>
-   
+          
 </body>
 </html> 
 

@@ -8,6 +8,7 @@ const logger=require('morgan')
 const path=require('path')
 const methodOverride = require("method-override");
 const multer = require('multer')
+const nocache=require('nocache')
 dbConnect()
 
 const userRoute = require('./routes/userRoute')
@@ -49,6 +50,7 @@ app.use(session({
     saveUninitialized: true
 }))
 
+app.use(nocache());
 
 
 app.use('/', userRoute)

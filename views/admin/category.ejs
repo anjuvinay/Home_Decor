@@ -32,7 +32,7 @@
                                 <% } %>
                             </div>
                             <script>
-                                // Define a JavaScript function called validateForm
+                                
                                 function validateForm() {
                                     // Get the input element
                                     var inputElement = document.getElementById('product_name');
@@ -55,7 +55,7 @@
                                 }
                             </script>
                             <div class="d-grid">
-                                <input type="submit" class="btn btn-primary" value="Create category" />
+                                <input type="submit" class="button button-gradient" value="Create category" />
                             </div>
                         </form>
                     </div>
@@ -86,7 +86,7 @@
                                 <% } %>
                                
                                 <td>
-                                    <a class="btn btn-sm btn-brand rounded font-sm mt-15 bg-primary" style="color: white;" href="/admin/editCategory?id=<%=cat._id%>">Edit</a>&nbsp;&nbsp; 
+                                    <a class="button button-gradient" style="color: white;" href="/admin/editCategory?id=<%=cat._id%>">Edit</a>&nbsp;&nbsp; 
                                     <a class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger" style="color: white;" href="/admin/deleteCategory?id=<%=cat._id%>">Delete</a> 
                                     
                                 </td>

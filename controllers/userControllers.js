@@ -107,7 +107,7 @@ insertUser : async (req, res) => {
 
 
 sendOtp : async (req, res) => {
-    // req.session.otpIsVerified = true
+
     try {
         const { email } = req.session.data
         const randomotp = Math.floor(1000 + Math.random() * 9000);
@@ -196,12 +196,18 @@ verifyOtp : async (req, res) => {
 
 loginLoad : async (req, res) => {
     try {
+        if(req.session.userName){
+            res.redirect('/')
+          }
+          else{
 
         if (req.query.message === 'blocked') {
             res.render('user_login', { message: 'User is Blocked' })
         } else {
             res.render('user_login', { message: '' })
         }
+    }
+            
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
@@ -216,7 +222,7 @@ verifyLogin : async (req, res) => {
         const password = req.body.password
         const userData = await User.findOne({ email: email })
        
-        if (userData) {
+        if (userData && userData.is_active==true) {
            
                 req.session.userName=userData.name
                 
@@ -228,6 +234,7 @@ verifyLogin : async (req, res) => {
                 } else {
                     res.render('user_login', { message: 'invalid password' })
                 }
+
             } else {
                 res.redirect('/login?message=blocked');
             }
