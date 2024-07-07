@@ -1,95 +1,184 @@
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Navbar</title>
-    <link rel="stylesheet" href="/assets/css/styles1.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
-    <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-            <div>
-                <button class="btn btn-icon btn-aside-minimize"> 
-                    <i class="text-muted material-icons md-menu_open"></i> 
-                </button>
-            </div>
-        </div>
-        <nav>
-            <ul class="menu-aside">
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/home">
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/usersList">
-                        <span class="text">User list</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/category">
-                        <span class="text">Categories</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/brand">
-                        <span class="text">Brands</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/productsList">
-                        <span class="text">Product list</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" disabled href="/admin/addProduct">
-                        <span class="text">Orders</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="/admin/ordersList">
-                        <span class="text">Offer</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" disabled href="/admin/brand">
-                        <span class="text">Coupon</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="#">
-                        <span class="text">Voucher</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" href="#">
-                        <span class="text">Stocks</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" disabled href="/admin/coupon">
-                        <span class="text">Salesreport</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" disabled href="/admin/banner">
-                        <span class="text">Banner Management</span>
-                    </a>
-                </li>
-                <li class="menu-item active">
-                    <a class="menu-link" disabled href="/admin/contact">
-                        <span class="text">Messages</span>
-                    </a>
-                </li>
-            </ul>
-            <hr>
-        </nav>
-    </aside>
-</body>
-</html>
-
-
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Vertical Navbar</title>
+     <link rel="stylesheet" href="/assets/css/styles1.css">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <style>
+         body {
+             margin: 0;
+             font-family: Arial, sans-serif;
+         }
+ 
+         .navbar-aside {
+            width: 240px;
+             position: fixed;
+             top: 0;
+             left: 0;
+             height: 100%;
+              background-color: #91a39a;
+             overflow-x: hidden;
+             transition: width 0.5s;
+            
+         }
+ 
+         .navbar-aside .aside-top {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 0%;
+             background-color: #91a39a;
+         }
+ 
+         .navbar-aside .menu-aside {
+             list-style-type: none;
+             padding: 0;
+         }
+ 
+         .navbar-aside .menu-item {
+             padding: 1px 15px;
+         }
+ 
+         .navbar-aside .menu-link {
+             text-decoration: none;
+             color: rgb(9, 58, 51);
+             display: block;
+             transition: background 0.3s;
+         }
+ 
+         .navbar-aside .menu-link:hover {
+             background: #f4f7f7;
+         }
+ 
+         .btn-aside-minimize,
+         .btn-toggle-sidebar {
+             background: none;
+             border: none;
+             color: white;
+             cursor: pointer;
+         }
+ 
+         .btn-toggle-sidebar {
+             position: fixed;
+             top: 15px;
+             left: 15px;
+             z-index: 1000;
+         }
+ 
+         @media (max-width: 768px) {
+             .navbar-aside {
+                 width: 0;
+             }
+ 
+             .navbar-aside.show {
+                 width: 250px;
+             }
+         }
+ 
+         @media (max-width: 768px) {
+             .btn-aside-minimize {
+                 display: block;
+             }
+         }
+     </style>
+ </head>
+ <body>
+     <button class="btn-toggle-sidebar">
+         <i class="material-icons">menu</i>
+     </button>
+     <aside class="navbar-aside" id="offcanvas_aside">
+         <div class="aside-top">
+             <div>
+                 <button class="btn btn-icon btn-aside-minimize"> 
+                     <i class="text-muted material-icons md-menu_open"></i> 
+                 </button>
+             </div>
+         </div>
+         <nav>
+             <ul class="menu-aside">
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/home">
+                         <span class="text">Dashboard</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/usersList">
+                         <span class="text">User list</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/category">
+                         <span class="text">Categories</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/brand">
+                         <span class="text">Brands</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/productsList">
+                         <span class="text">Product list</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" disabled href="/admin/addProduct">
+                         <span class="text">Orders</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="/admin/ordersList">
+                         <span class="text">Offer</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" disabled href="/admin/brand">
+                         <span class="text">Coupon</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="#">
+                         <span class="text">Voucher</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" href="#">
+                         <span class="text">Stocks</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" disabled href="/admin/coupon">
+                         <span class="text">Salesreport</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" disabled href="/admin/banner">
+                         <span class="text">Banner Management</span>
+                     </a>
+                 </li>
+                 <li class="menu-item active">
+                     <a class="menu-link" disabled href="/admin/contact">
+                         <span class="text">Messages</span>
+                     </a>
+                 </li>
+             </ul>
+             <hr>
+         </nav>
+     </aside>
+     <script>
+         document.querySelector('.btn-aside-minimize').addEventListener('click', function() {
+             var aside = document.getElementById('offcanvas_aside');
+             aside.classList.toggle('show');
+         });
+ 
+         document.querySelector('.btn-toggle-sidebar').addEventListener('click', function() {
+             var aside = document.getElementById('offcanvas_aside');
+             aside.classList.toggle('show');
+         });
+     </script>
+ </body>
+ </html>
+ 

@@ -66,8 +66,8 @@ body {
 }
 
 .main-content {
-    margin-top: 80px; /* Adjust for the fixed navbar */
-    margin-left: 220px; /* Adjust for the fixed sidebar */
+    margin-top: 5rem; /* Adjust for the fixed navbar */
+    margin-left: 12rem; /* Adjust for the fixed sidebar */
     flex-grow: 1;
     padding: 20px;
     box-sizing: border-box;
