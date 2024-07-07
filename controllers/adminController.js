@@ -611,7 +611,14 @@ loadEditProductList : async (req, res) => {
         console.log(error.message);
         res.redirect('/500');
     }
-}
+},
+
+try : async (req, res) => {
+  
+        res.render('trial')
+  
+},
+
 
 
 

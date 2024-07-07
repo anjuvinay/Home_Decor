@@ -4,36 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeDecor</title>
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-    <!-- Bootstrap CSS (optional, for styling) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: rgb(236, 239, 236);
-            overflow-x: hidden;
-        }
-        .main-content {
-            margin-left: 18%;
-            padding: 40px;
-            margin-top: 6%;
-        }
-
-        .container-fluid {
-            padding-left: 40px;
-            padding-right: 40px;
-        }
-        .center-text {
-            text-align: center;
-            margin-bottom: 7rem;
-        }
-        .table-container {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-    </style>
-
-
 </head>
 <body>
 
@@ -43,13 +15,12 @@
     <div class="main-content">
         <h1 class="center-text">User List</h1>
         <section>
-            <div class="container-fluid table-container">
-                <table class="table mt-5" id="peopleTable">
+           <div class="container-fluid table-container col-md-12">
+                 <!-- <table class="table mt-5" id="peopleTable">
                     <thead>
                         <tr>
                             <th scope="col">Index</th>
                             <th scope="col">Name</th>
-                            <th scope="col">ID</th>
                             <th scope="col">Email</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Status</th>
@@ -62,7 +33,7 @@
                                  
                                 <td><%= index+1 %></td>
                                 <td><%= user.name %></td>
-                                <td><%= user._id %></td>
+        
                                 <td><%= user.email %></td>
                                 <td><%= user.mobile %></td>
                                 <% if (user.is_active) { %>
@@ -81,7 +52,43 @@
                         <% } )%>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Index</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">status</th>
+                    <th scope="col">option</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach((user, index)=> { %>
+                        <tr>
+                             
+                            <td><%= index+1 %></td>
+                            <td><%= user.name %></td>
+    
+                            <td><%= user.email %></td>
+                            <td><%= user.mobile %></td>
+                            <% if (user.is_active) { %>
+                                <td><span class="badge rounded-pill alert-success">Active</span></td>
+                            <% } else { %>
+                                <td><span class="badge rounded-pill alert-danger">Blocked</span></td>
+                            <% } %>
+                            <td class="text-end">
+                                <% if (user.is_active) { %>
+                                    <a onclick="sweet('<%= user._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-danger">Block</a>
+                                <% } else { %>
+                                    <a onclick="sweetAlert('<%= user._id %>')" class="btn btn-sm btn-brand rounded font-sm mt-15 bg-success">Unblock</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } )%>
+                </tbody>
+              </table>
         </section>
     </div>
 

@@ -45,7 +45,7 @@ adminRoute.get('/editProductList', auth.isLogin, upload.array('image', 5), admin
 adminRoute.post('/editProductList', auth.isLogin, upload.array('image', 5), adminController.loadEditProductList)
 
 
-
+adminRoute.get('/try', adminController.try)
 
 
 
