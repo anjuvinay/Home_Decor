@@ -12,39 +12,6 @@ const cron = require('node-cron')
 
 module.exports = {
 
-    loadHome: async (req, res, next) => {
-        try {
-            let user = req.session.userName;
-          let page = 1;
-    
-          if (req.query.page) {
-            page = req.query.page;
-          }
-    
-          const limit = 12;
-
-          const products = await Product.find({})
-            .skip((page - 1) * limit)
-            .limit(limit * 1)
-            .exec();
-            const count = await Product.find().countDocuments();
-          return res.render("index", {
-           
-            products,
-            pages: Math.ceil(count / limit),
-            current: page,
-            previous: page - 1,
-            nextPage: Number(page) + 1,
-            limit,
-            count,
-            user:user
-          });
-        } catch (err) {
-          console.log(err);
-          next(err);
-        }
-      },
-    
 
 loadSignup : async (req, res) => {
     try {
@@ -279,21 +246,28 @@ userLogout : async (req, res) => {
 },
 
 
-productDetails : async (req, res) => {
+usersList : async (req, res) => {
+    try {
+        const userData = await User.find({ is_admin: false })
+        let admin = req.session.adminName;
+        res.render('userList', { users: userData, admin:admin })
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+    
+},
+
+
+
+blockUser : async (req, res) => {
     try {
         const id = req.query.id
-        let user = req.session.userName;
-        const productData = await Product.findById({ _id: id }).populate('brandId')
-        const categoryId=productData.categoryId
-      
-        const relatedProducts= await Product.find({categoryId:categoryId,is_active:true}).limit(4)
-      
-        if (productData) {
-            res.render('productDetails', { product: productData, user: user, relatedProducts})
-        } else {
-            res.redirect('/home')
-
+        const userData = await User.findByIdAndUpdate({ _id: id }, { $set: { is_active: false } })
+        if (userData) {
+            res.redirect('/admin/usersList')
         }
+
     } catch (error) {
         console.log(error.message)
         res.redirect('/500')
@@ -302,8 +276,19 @@ productDetails : async (req, res) => {
 
 
 
+unblockUser : async (req, res) => {
+    try {
+        const id = req.query.id
+        const userData = await User.findByIdAndUpdate({ _id: id }, { $set: { is_active: true } })
+        if (userData) {
+            res.redirect('/admin/usersList')
+        }
 
-
+    } catch (error) {
+        console.log(error.message)
+        res.redirect('/500')
+    }
+},
 
 
 
