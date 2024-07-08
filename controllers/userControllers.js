@@ -12,18 +12,39 @@ const cron = require('node-cron')
 
 module.exports = {
 
-loadHome : async (req,res)=>{
-    try {
-        let user = req.session.userName;
-        const products = await Product.find({})
+    loadHome: async (req, res, next) => {
+        try {
+            let user = req.session.userName;
+          let page = 1;
+    
+          if (req.query.page) {
+            page = req.query.page;
+          }
+    
+          const limit = 12;
 
-        res.render("index",{user:user, products})
-    } catch (error) {
-        console.log(error.message)
-        res.redirect('/500')
-    }
-
-},
+          const products = await Product.find({})
+            .skip((page - 1) * limit)
+            .limit(limit * 1)
+            .exec();
+            const count = await Product.find().countDocuments();
+          return res.render("index", {
+           
+            products,
+            pages: Math.ceil(count / limit),
+            current: page,
+            previous: page - 1,
+            nextPage: Number(page) + 1,
+            limit,
+            count,
+            user:user
+          });
+        } catch (err) {
+          console.log(err);
+          next(err);
+        }
+      },
+    
 
 loadSignup : async (req, res) => {
     try {

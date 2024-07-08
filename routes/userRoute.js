@@ -19,7 +19,7 @@ userRoute.post('/verifyOtp', userController.verifyOtp)
 userRoute.get('/login', userController.loginLoad)
 userRoute.post('/login', userController.verifyLogin)
 userRoute.get('/logout', userController.userLogout)
-userRoute.get('/productDetails',auth.isLogin, userController.productDetails)
+userRoute.get('/productDetails',auth.isLogin, auth.isBlocked, userController.productDetails)
 
 
 
